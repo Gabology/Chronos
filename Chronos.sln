@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Chronos.Core", "Chronos.Core\Chronos.Core.fsproj", "{83D48DA7-7E3B-4FB1-AEE0-0D02929652F6}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Chronos.UI", "Chronos.UI\Chronos.UI.fsproj", "{BB3D523F-4816-4484-8D16-4D4E3ACAA9DC}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Chronos.Persistence", "Chronos.Persistence\Chronos.Persistence.fsproj", "{9D8AE2E0-6961-4C4C-9115-B58E8065BF3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83D48DA7-7E3B-4FB1-AEE0-0D02929652F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D48DA7-7E3B-4FB1-AEE0-0D02929652F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D48DA7-7E3B-4FB1-AEE0-0D02929652F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D48DA7-7E3B-4FB1-AEE0-0D02929652F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB3D523F-4816-4484-8D16-4D4E3ACAA9DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3D523F-4816-4484-8D16-4D4E3ACAA9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB3D523F-4816-4484-8D16-4D4E3ACAA9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB3D523F-4816-4484-8D16-4D4E3ACAA9DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D8AE2E0-6961-4C4C-9115-B58E8065BF3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D8AE2E0-6961-4C4C-9115-B58E8065BF3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D8AE2E0-6961-4C4C-9115-B58E8065BF3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D8AE2E0-6961-4C4C-9115-B58E8065BF3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
