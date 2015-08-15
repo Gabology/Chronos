@@ -50,7 +50,6 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="FileSystem.fs" />
-    <None Include="Script.fsx" />
     <Compile Include="Db.fs" />
     <Content Include="packages.config" />
     <Content Include="app.config" />
