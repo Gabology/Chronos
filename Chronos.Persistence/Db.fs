@@ -18,5 +18,5 @@ module Sql =
         | Some id ->
             use insertTimeCardCmd = new InsertTimeCardCommand()
             for ClockedOut (start, ``end``, tt) in cards do
-                insertTimeCardCmd.Execute(start.TimeOfDay, ``end``.TimeOfDay, int tt, id)
+                insertTimeCardCmd.Execute(start.TimeOfDay, ``end``.TimeOfDay, tt.Id, id)
                 |> ignore

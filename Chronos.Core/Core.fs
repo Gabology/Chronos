@@ -2,9 +2,14 @@
 open System
 
 type TimeType =
-    | Regular = 1
-    | Break = 2
-    | Lunch = 3
+    | Regular
+    | Break
+    | Lunch
+    member x.Id =
+        match x with
+        | Regular -> 1
+        | Break   -> 2
+        | Lunch   -> 3
 
 type Employee = Employee of int
 
