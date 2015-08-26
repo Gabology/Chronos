@@ -39,14 +39,6 @@ let lunchTimeRadioBtn =
                     Left = regularTimeRadioBtn.Left,
                     Enabled = false)
 
-//let getCheckedTimeType() = 
-//    let (_,res) = 
-//        [ regularTimeRadioBtn, 1
-//          breakTimeRadioBtn,   2 
-//          lunchTimeRadioBtn,   3 ]
-//        |> List.find (fun (btn,_) -> btn.Checked)
-//    res
-
 let clockInBtn = 
     new Button(Text = "Clock in", 
                Left = 50, 
@@ -56,15 +48,7 @@ let enableRadioBtns() =
     [regularTimeRadioBtn; lunchTimeRadioBtn; breakTimeRadioBtn]
     |> List.iter (fun btn -> btn.Enabled <- true)
 
-let form = new Form(Width = 200, Height = 200, BackColor = Color.GreenYellow)
-//let timeTypeChanged =
-//    [ regularTimeRadioBtn, TimeType.Regular 
-//      breakTimeRadioBtn,   TimeType.Break 
-//      lunchTimeRadioBtn,   TimeType.Lunch ]
-//    |> List.map (fun (btn, tt) -> 
-//        btn.CheckedChanged |> Observable.map (fun _ -> tt)
-//                           |> Observable.filter (fun _ -> btn.Checked))
-//    |> List.reduce (Observable.merge)
+let form = new Form(Width = 200, Height = 200, BackColor = Color.Green)
 
 let agent = MailboxProcessor.Start(fun mbox -> 
     let rec loop st = async { 
