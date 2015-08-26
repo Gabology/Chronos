@@ -14,9 +14,14 @@ module Sql =
         use insertShiftCmd = new InsertShiftCommand()
         let shiftId = insertShiftCmd.Execute(id, DateTime.Today)
         match shiftId with
-        | None    -> failwith "Uh-oh something went very wrong here..."
+        | None    -> 
+            failwith "Uh-oh something went very wrong here..."
         | Some id ->
             use insertTimeCardCmd = new InsertTimeCardCommand()
             for ClockedOut (start, ``end``, tt) in cards do
-                insertTimeCardCmd.Execute(start.TimeOfDay, ``end``.TimeOfDay, tt.Id, id)
+                let tag = 
+                    match tt with
+                    | Regular tag -> tag
+                    | _           -> null
+                insertTimeCardCmd.Execute(start.TimeOfDay, ``end``.TimeOfDay, tt.Id, id, tag)
                 |> ignore

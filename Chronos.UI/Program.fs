@@ -39,13 +39,13 @@ let lunchTimeRadioBtn =
                     Left = regularTimeRadioBtn.Left,
                     Enabled = false)
 
-let getCheckedTimeType() = 
-    let (_,res) = 
-        [ regularTimeRadioBtn, TimeType.Regular 
-          breakTimeRadioBtn,   TimeType.Break 
-          lunchTimeRadioBtn,   TimeType.Lunch ]
-        |> List.find (fun (btn,_) -> btn.Checked)
-    res
+//let getCheckedTimeType() = 
+//    let (_,res) = 
+//        [ regularTimeRadioBtn, 1
+//          breakTimeRadioBtn,   2 
+//          lunchTimeRadioBtn,   3 ]
+//        |> List.find (fun (btn,_) -> btn.Checked)
+//    res
 
 let clockInBtn = 
     new Button(Text = "Clock in", 
@@ -57,14 +57,14 @@ let enableRadioBtns() =
     |> List.iter (fun btn -> btn.Enabled <- true)
 
 let form = new Form(Width = 200, Height = 200, BackColor = Color.GreenYellow)
-let timeTypeChanged =
-    [ regularTimeRadioBtn, TimeType.Regular 
-      breakTimeRadioBtn,   TimeType.Break 
-      lunchTimeRadioBtn,   TimeType.Lunch ]
-    |> List.map (fun (btn, tt) -> 
-        btn.CheckedChanged |> Observable.map (fun _ -> tt)
-                           |> Observable.filter (fun _ -> btn.Checked))
-    |> List.reduce (Observable.merge)
+//let timeTypeChanged =
+//    [ regularTimeRadioBtn, TimeType.Regular 
+//      breakTimeRadioBtn,   TimeType.Break 
+//      lunchTimeRadioBtn,   TimeType.Lunch ]
+//    |> List.map (fun (btn, tt) -> 
+//        btn.CheckedChanged |> Observable.map (fun _ -> tt)
+//                           |> Observable.filter (fun _ -> btn.Checked))
+//    |> List.reduce (Observable.merge)
 
 let agent = MailboxProcessor.Start(fun mbox -> 
     let rec loop st = async { 
@@ -84,24 +84,46 @@ let agent = MailboxProcessor.Start(fun mbox ->
             return! loop (blankCard::st) }
     loop [])
 
+let radioBtnChecked (radioBtn:RadioButton) =
+    radioBtn.CheckedChanged 
+    |> Observable.filter (fun _ -> radioBtn.Checked)
+
+
+let timeColor =
+    function
+    | Regular _ -> Color.Green
+    | Break     -> Color.Orange
+    | Lunch     -> Color.Red
+
+
 do
+    let getRegularTag() = 
+        Microsoft.VisualBasic.Interaction.InputBox("Enter tag name:")
+
+    let regularSet =
+        regularTimeRadioBtn |> radioBtnChecked
+                            |> Observable.map 
+                                (ignore >> getRegularTag >> Some)
+    
+    let timeTypeChanged = 
+        [ regularTimeRadioBtn, fun () -> Regular <| getRegularTag()
+          breakTimeRadioBtn,   fun () -> Break 
+          lunchTimeRadioBtn,   fun () -> Lunch ]
+        |> List.map (fun (btn, f) -> 
+            btn |> radioBtnChecked
+                |> Observable.map (ignore >> f))
+        |> List.reduce (Observable.merge)
+
     clockInBtn.Click.Add (fun _ -> 
         enableRadioBtns()
         clockInBtn.Visible <- false
-        let tt = getCheckedTimeType()
+        let tt = getRegularTag() |> Regular
         OpenTimeCard tt |> agent.Post)
 
-    timeTypeChanged |> Observable.add (fun tt -> 
+    timeTypeChanged |> Observable.add (fun tt ->
+        form.BackColor <- timeColor tt
         OpenTimeCard tt |> agent.Post)
     
-    timeTypeChanged |> Observable.add (fun tt ->
-        let color =
-            match tt with
-            | TimeType.Regular -> Color.Green
-            | TimeType.Break   -> Color.Orange
-            | TimeType.Lunch   -> Color.Red
-        form.BackColor <- color)
-
     form.FormClosing.Add(fun ev -> 
        let timeCards = 
            agent.PostAndReply (fun replyChannel -> FetchTimeCards replyChannel)
@@ -109,7 +131,7 @@ do
        | [] -> ()
        | hd::tl ->
            let clockedCard = hd |> stampCard
-           let shift = createWorkShift employee (clockedCard::tl)
+           let shift = createWorkShift employee <| clockedCard::tl
            shift |> saveToSqlDb)
        
 [<STAThread>]

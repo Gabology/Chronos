@@ -2,14 +2,14 @@
 open System
 
 type TimeType =
-    | Regular
+    | Regular of string
     | Break
     | Lunch
     member x.Id =
         match x with
-        | Regular -> 1
-        | Break   -> 2
-        | Lunch   -> 3
+        | Regular(_) -> 1
+        | Break      -> 2
+        | Lunch      -> 3
 
 type Employee = Employee of int
 
@@ -22,9 +22,12 @@ type WorkShift = WorkShift of Employee * TimeCard list
 
 let stampCard timeCard =
     match timeCard with
-    | Unclocked timeType -> ClockedIn (DateTime.Now, timeType)
-    | ClockedIn (startTime, timeType) -> ClockedOut (startTime, DateTime.Now, timeType)
-    | _ -> failwith "This timecard has been clocked out already"
+    | Unclocked timeType -> 
+        ClockedIn (DateTime.Now, timeType)
+    | ClockedIn (startTime, timeType) -> 
+        ClockedOut (startTime, DateTime.Now, timeType)
+    | _ -> 
+        failwith "This timecard has been clocked out already"
 
 let createWorkShift (employee:Employee) timeCards =
     let allClockedOut = 
